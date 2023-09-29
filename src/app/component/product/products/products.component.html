@@ -1,0 +1,54 @@
+<app-header></app-header>
+<div class="p-3">
+    <div class="flex p-2">
+        <div class="flex-initial flex align-items-center">Product</div>
+        <div class="ml-auto "><p-button (click)="showDialog()" icon="pi pi-plus" label="add"></p-button></div>
+    </div>
+    <div class="p-2">
+        <div class="card">
+            <p-toast class="top-right"></p-toast>
+            <p-table [value]="productlist" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Attribute</th>
+                        <th style="width: 5rem">Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{product.categoryId}}</td>
+                        <td>{{ product.attributes}}</td>
+                        <td>
+                            <div class="flex gap-3">
+                                <p-button icon="pi pi-pencil" (click)="selectProduct(product)"
+                                    styleClass="p-button-rounded p-button-text p-button-raised"></p-button>
+                                <p-button icon="pi pi-times" (click)="deleteProduct(product)"
+                                    styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"></p-button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Product" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false"
+    [resizable]="true">
+    <form class="flex" [formGroup]="CreateForm">
+        <input type="text" class="mr-3" pInputText placeholder="Name" formControlName="name" />
+        <input type="text" class="mr-3"  pInputText placeholder="Desscription" formControlName="description" />
+    <app-dropdown [options]="catlist" class="mr-3" formArrayName="categoryId"></app-dropdown>
+    <app-dropdown [options]="attributeslist" formControlName="attributes" class="mr-3" ></app-dropdown>
+
+        <p-button icon="pi pi-check" class="ml-auto" (click)="Onsubmit()"
+        styleClass="p-button-rounded p-button-text p-button-raised"></p-button>
+    </form>
+</p-dialog>
